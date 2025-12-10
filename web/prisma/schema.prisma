@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Contact {
+  id             String        @id @default(cuid())
+  name           String
+  phone          String        @unique
+  email          String?
+  company        String?
+  whatsappOptIn  Boolean       @default(false)
+  tags           String?
+  notes          String?
+  metadata       String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  calls          Call[]
+  voiceProfile   VoiceProfile?
+}
+
+model Call {
+  id               String            @id @default(cuid())
+  direction        String
+  status           String            @default("CREATED")
+  subject          String?
+  contactId        String?
+  contact          Contact?          @relation(fields: [contactId], references: [id])
+  startedAt        DateTime          @default(now())
+  endedAt          DateTime?
+  recordingUrl     String?
+  transcriptionId  String?
+  sentimentScore   Float?
+  sentimentLabel   String?
+  highlights       String?
+  summary          String?
+  actions          String?
+  metadata         String?
+  aiAgentNotes     String?
+  whatsappDelivered Boolean          @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  transcript       Transcript?
+}
+
+model Transcript {
+  id        String @id @default(cuid())
+  callId    String @unique
+  text      String?
+  redacted  String?
+  keywords  String?
+  language  String?
+  createdAt DateTime @default(now())
+  call      Call   @relation(fields: [callId], references: [id])
+}
+
+model VoiceProfile {
+  id            String   @id @default(cuid())
+  contactId     String   @unique
+  contact       Contact  @relation(fields: [contactId], references: [id])
+  featureVector String
+  recordingUrl  String?
+  modelVersion  String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #05060a;
+  --surface: #0f172a;
+  --surface-muted: rgba(15, 23, 42, 0.6);
+  --surface-glass: rgba(15, 23, 42, 0.45);
+  --accent: #6366f1;
+  --accent-soft: rgba(99, 102, 241, 0.18);
+  --accent-strong: #8b5cf6;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #fbbf24;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(148, 163, 184, 0.12);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.25), transparent 45%),
+      radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.28), transparent 40%),
+      linear-gradient(180deg, rgba(2, 6, 23, 0.95), rgba(2, 6, 23, 0.99));
+    color: var(--text-primary);
+    font-family: var(--font-geist-sans);
+    letter-spacing: 0.01em;
+  }
+
+  * {
+    border-color: var(--border-color);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-lg shadow-slate-900/50;
+  }
+
+  .panel-title {
+    @apply text-sm font-semibold uppercase tracking-[0.18em] text-slate-300;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-slate-200;
+  }
+
+  .stat-card {
+    @apply rounded-3xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-slate-900/50 backdrop-blur-xl transition-all duration-200 hover:border-white/30 hover:bg-white/10;
+  }
+}
